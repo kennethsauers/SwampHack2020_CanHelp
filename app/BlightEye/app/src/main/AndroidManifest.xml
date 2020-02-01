@@ -10,9 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".TakeAPicture"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_take_apicture"
+            android:theme="@style/FullscreenTheme"></activity>
+        <activity
             android:name=".LibraryGrid"
             android:label="@string/title_activity_library_grid"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

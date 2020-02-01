@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BlightEye</string>
     <string name="title_activity_library_grid">LibraryGrid</string>
+
+    <string name="title_activity_take_apicture">TakeAPicture</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
