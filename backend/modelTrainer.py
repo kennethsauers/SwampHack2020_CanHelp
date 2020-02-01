@@ -1,5 +1,6 @@
-train_dir = "train"
-test_dir = "test"
+
+train_dir = "/home/kennethsauers/malignatVsBenign/train"
+test_dir = "/home/kennethsauers/malignatVsBenign/test"
 save_dir = "savedModels/"
 
 
@@ -36,7 +37,7 @@ train_generator = train_datagen.flow_from_directory(
 validation_datagen = ImageDataGenerator(rescale=1./255)
 
 validation_generator = validation_datagen.flow_from_directory(
-    validation_dir,
+    train_dir,
     target_size=(150, 150),
     color_mode="rgb",
     batch_size=batchSize,
