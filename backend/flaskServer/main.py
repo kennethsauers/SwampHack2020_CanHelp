@@ -4,6 +4,9 @@ modelPath = '/home/kennethsauers/SwampHack2020_CanHelp/backend/savedModels/path_
 
 app = Flask(__name__)
 
+def preprocessing(imgarr):
+    return np.asarray(imgarr).reshape([-1,150,150,3])
+
 @app.route('/', methods = ['POST'])
 def hello_world():
     return 'Hello, World!'
@@ -24,6 +27,16 @@ def greeting():
             "age": content["age"]
            }
     return data
+
+@app.route('/screening', methods = ['POST'])
+def screening():
+
+    model = tf.keras.models.load_model('..savedModels/path_to_my_model.h5')
+    payload = request.get_json()
+    x = model.predict(preprocessing(payload['data']))
+    print(x)
+    return jsonify({'data' : x.tolist()})
+
 
 
 if __name__ == '__main__':
