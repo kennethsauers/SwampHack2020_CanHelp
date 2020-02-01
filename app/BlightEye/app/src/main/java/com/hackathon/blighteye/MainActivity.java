@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,13 +19,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         toCameraButton = findViewById(R.id.GoToCamera);
         toLibraryButton = findViewById(R.id.GoToLibrary);
 
         toCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                // fixme
+                goToTakeAPicture(v);
             }
         });
 
@@ -37,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToRequestActivity(View view) {
         Intent intent = new Intent(this, RequestsActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToTakeAPicture(View view){
+        Intent intent = new Intent(this, TakeAPicture.class);
         startActivity(intent);
     }
 }
