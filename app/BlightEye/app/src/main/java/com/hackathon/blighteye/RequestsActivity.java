@@ -36,7 +36,6 @@ public class RequestsActivity extends AppCompatActivity {
 
     private Button sendRequestButton;
     private EditText editText1;
-    private EditText editText2;
     private RequestQueue rQ;
     private TextView textView;
     private ImageView imageView;
@@ -51,7 +50,6 @@ public class RequestsActivity extends AppCompatActivity {
         rQ = Volley.newRequestQueue(this);
         textView = findViewById(R.id.RequestsText);
         editText1 = findViewById(R.id.Edit1);
-        editText2 = findViewById(R.id.Edit2);
         imageView = findViewById(R.id.imageView);
         sendRequestButton = findViewById(R.id.sendRequestButton);
 
@@ -74,7 +72,6 @@ public class RequestsActivity extends AppCompatActivity {
     void sendStringRequest() {
         // Get values from editTexts
         String e1 = editText1.getText().toString();
-        String e2 = editText2.getText().toString();
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
