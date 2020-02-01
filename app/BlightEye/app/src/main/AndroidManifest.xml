@@ -10,10 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".RequestActivity"
+            android:label="@string/title_activity_request"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hackathon.blighteye.MainActivity" />
+        </activity>
+        <activity
             android:name=".TakeAPicture"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_take_apicture"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".LibraryGrid"
             android:label="@string/title_activity_library_grid"
