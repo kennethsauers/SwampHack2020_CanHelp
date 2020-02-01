@@ -1,0 +1,15 @@
+
+POST /
+// no body required
+
+
+POST /calc
+{
+	"value": 100
+}
+
+POST /greeting
+{
+  "name" : "Kenneth Sauers",
+  "age" : 21
+}
