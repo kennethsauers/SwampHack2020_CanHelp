@@ -2,13 +2,19 @@ package com.hackathon.blighteye;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.camera2.*;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -161,5 +167,24 @@ public class TakeAPicture extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    private Button takeAPicture;
+    private String cameraId;
+    private SurfaceView surfaceView;
+    protected CameraDevice cameraDevice;
+    protected CaptureRequest captureRequest;
+    protected CameraCaptureSession cameraCaptureSessions;
+    private static final int REQUEST_CAMERA_PERMISSION = 200;
+
+    /** Check if this device has a camera */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                // close the app
+                finish();
+            }
+        }
     }
 }
