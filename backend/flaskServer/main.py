@@ -1,11 +1,18 @@
 from flask import Flask, jsonify, request
+import cv2
+from tensorflow import keras
 
 modelPath = '/home/kennethsauers/SwampHack2020_CanHelp/backend/savedModels/path_to_my_model.h5'
 
 app = Flask(__name__)
 
-def preprocessing(imgarr):
-    return np.asarray(imgarr).reshape([-1,150,150,3])
+def evalFromDir(dir = '../ISIC_0029314.jpg', model = "../savedModels/path_to_my_model.h5"):
+	img = cv2.imread(dir)
+	img = cv2.resize(img,(150,150))
+	img = img.reshape(-1,150,150,3)
+	new_model = keras.models.load_model(model)
+	predictions = new_model.predict(img)
+	return predictions
 
 @app.route('/', methods = ['POST'])
 def hello_world():
@@ -30,12 +37,11 @@ def greeting():
 
 @app.route('/screening', methods = ['POST'])
 def screening():
+    data = evalFromDir()
+    data = data.tolist()
 
-    model = tf.keras.models.load_model('..savedModels/path_to_my_model.h5')
-    payload = request.get_json()
-    x = model.predict(preprocessing(payload['data']))
-    print(x)
-    return jsonify({'data' : x.tolist()})
+    return {"benign" : data
+    }
 
 
 
