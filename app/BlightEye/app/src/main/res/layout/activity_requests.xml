@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".RequestActivity"
-    tools:showIn="@layout/activity_request">
+    tools:context=".RequestActivity">
 
     <TextView
         android:id="@+id/RequestsText"
@@ -29,19 +28,6 @@
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <EditText
-        android:id="@+id/EditReqBody"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="8dp"
-        android:hint="Description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_description" />
-
-    <EditText
         android:id="@+id/edit_text_description"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -54,8 +40,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RequestsText" />
 
+    <EditText
+        android:id="@+id/EditReqBody"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_description" />
+
     <Button
-        android:id="@+id/setDueDateButton"
+        android:id="@+id/sendRequestButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
