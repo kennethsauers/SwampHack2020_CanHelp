@@ -1,6 +1,7 @@
 package com.hackathon.blighteye;
 
 import android.app.DownloadManager;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.android.volley.Request;
@@ -20,11 +21,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class RequestsActivity extends AppCompatActivity {
 
@@ -33,6 +39,8 @@ public class RequestsActivity extends AppCompatActivity {
     private EditText editText2;
     private RequestQueue rQ;
     private TextView textView;
+    private ImageView imageView;
+
     String url = "https://cool-phalanx-266913.appspot.com/calc";
 
     @Override
@@ -44,6 +52,7 @@ public class RequestsActivity extends AppCompatActivity {
         textView = findViewById(R.id.RequestsText);
         editText1 = findViewById(R.id.Edit1);
         editText2 = findViewById(R.id.Edit2);
+        imageView = findViewById(R.id.imageView);
         sendRequestButton = findViewById(R.id.sendRequestButton);
 
         // Add listener for request function Button
@@ -53,6 +62,13 @@ public class RequestsActivity extends AppCompatActivity {
                 sendCalcJSONRequest();
             }
         });
+
+        try {
+            byte[] bytes = fullyReadFileToBytes();
+            imageView.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void sendStringRequest() {
@@ -88,19 +104,44 @@ public class RequestsActivity extends AppCompatActivity {
 
     public boolean sendCalcJSONRequest() {
         String e1Str = editText1.getText().toString();
-        Integer value = Integer.parseInt(e1Str);
+        String e2Str = editText1.getText().toString();
+
+
+//        if (e1Str.equals("")) {
+//            Toast.makeText(this, "NO TEXT SENT", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//
+//        Integer value = Integer.parseInt(e1Str);
 
         JSONObject jsonRequestObject;
+        jsonRequestObject = new JSONObject();
+//        try {
+//            jsonRequestObject = new JSONObject()
+//                    .put("value", value);
+//        } catch (JSONException e){
+//            e.printStackTrace();
+//            return false;
+//        }
+
 
         try {
-            jsonRequestObject = new JSONObject()
-                    .put("value", value);
-        } catch (JSONException e){
+            byte[] bytes = fullyReadFileToBytes();
+            jsonRequestObject.put("value", new String(bytes));
+
+//            for (int i = 0; i < bytes.length; i++) {
+//                Log.i(Byte.toString(bytes[i]), "yes");
+//            }
+
+        } catch (IOException e) {
             e.printStackTrace();
-            return false;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            Log.i("******************************* YUH", "ayy");
         }
 
-        Log.i("Sending a req", "req");
+        Log.i("Sending a req", "yes man");
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -110,22 +151,51 @@ public class RequestsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            Log.i("^^^^^^^^^^^GOT A VALID RESPONSE^^^^^^^^^^", "yuh");
                             Integer resInt = response.getInt("data");
                             Toast.makeText(getApplicationContext(), resInt.toString(), Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
-                            e.printStackTrace();
+//                            e.printStackTrace();
+                            e.getCause();
+                            Log.i("^^^^^^^^^^But parsing error occured^^^^^^^^","IN onResponse()");
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Errored", error.toString());
+                        Log.e("^^^^^^^^^^ Errored on tryna get response", error.toString());
                     }
                 });
 
         rQ.add(jsonObjectRequest);
 
         return true;
+    }
+
+    byte[] fullyReadFileToBytes() throws IOException {
+        File f = new File(getFilesDir() + "/pic.jpg");
+        int size = (int) f.length();
+        byte bytes[] = new byte[size];
+        byte tmpBuff[] = new byte[size];
+        FileInputStream fis= new FileInputStream(f);
+        try {
+
+            int read = fis.read(bytes, 0, size);
+            if (read < size) {
+                int remain = size - read;
+                while (remain > 0) {
+                    read = fis.read(tmpBuff, 0, remain);
+                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                    remain -= read;
+                }
+            }
+        }  catch (IOException e){
+            throw e;
+        } finally {
+            fis.close();
+        }
+
+        return bytes;
     }
 }
