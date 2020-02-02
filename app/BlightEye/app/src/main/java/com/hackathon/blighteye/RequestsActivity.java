@@ -57,7 +57,11 @@ public class RequestsActivity extends AppCompatActivity {
         sendRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendCalcJSONRequest();
+                try {
+                    sendCalcJSONRequest();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -69,93 +73,33 @@ public class RequestsActivity extends AppCompatActivity {
         }
     }
 
-    void sendStringRequest() {
-        // Get values from editTexts
-        String e1 = editText1.getText().toString();
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Toast.makeText(RequestsActivity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(RequestsActivity.this, "e" + e.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(RequestsActivity.this, "err"+error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-
-        rQ.add(stringRequest);
-    }
-
-    public boolean sendCalcJSONRequest() {
+    public boolean sendCalcJSONRequest() throws JSONException {
         String e1Str = editText1.getText().toString();
-        String e2Str = editText1.getText().toString();
 
-
-//        if (e1Str.equals("")) {
-//            Toast.makeText(this, "NO TEXT SENT", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
-//
-//        Integer value = Integer.parseInt(e1Str);
-
-        JSONObject jsonRequestObject;
-        jsonRequestObject = new JSONObject();
-//        try {
-//            jsonRequestObject = new JSONObject()
-//                    .put("value", value);
-//        } catch (JSONException e){
-//            e.printStackTrace();
-//            return false;
-//        }
-
+        JSONObject jsonObject;
+        jsonObject = new JSONObject();
 
         try {
             byte[] bytes = fullyReadFileToBytes();
-            jsonRequestObject.put("value", new String(bytes));
+            jsonObject.put("value", new String(bytes));
 
-//            for (int i = 0; i < bytes.length; i++) {
-//                Log.i(Byte.toString(bytes[i]), "yes");
-//            }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } finally {
-            Log.i("******************************* YUH", "ayy");
+            return false;
         }
 
-        Log.i("Sending a req", "yes man");
+        Log.i("^^^^^^^Preparing to send the request now ^^^^^^^^^^^^^^", "Packing jsonObject into JsonRequest");
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
-                jsonRequestObject,
+                jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            Log.i("^^^^^^^^^^^GOT A VALID RESPONSE^^^^^^^^^^", "yuh");
-                            Integer resInt = response.getInt("data");
-                            Toast.makeText(getApplicationContext(), resInt.toString(), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-//                            e.printStackTrace();
-                            e.getCause();
-                            Log.i("^^^^^^^^^^But parsing error occured^^^^^^^^","IN onResponse()");
-                        }
+                        Log.i("^^^^^^^^^^^GOT A VALID RESPONSE^^^^^^^^^^", " PRINTING IT");
+                        Log.i("RESPONSE AS A STRING: ", response.toString());
+                        Toast.makeText(getApplicationContext(), "Got an OK", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -166,7 +110,6 @@ public class RequestsActivity extends AppCompatActivity {
                 });
 
         rQ.add(jsonObjectRequest);
-
         return true;
     }
 
