@@ -6,7 +6,7 @@ import io
 import base64
 
 app = Flask(__name__)
-
+diseaseList = ["Bowen's disease", "basal cell carcinoma", "benign keratosis-like", "dermatofibroma", "melanoma", "melanocytic nevi ", "vascular lesions vasc."]
 def evalFromDir(dir = '../ISIC_0029314', model = "vgg_8cat.h5"):
 	img = Image.open("{}.jpg".format(dir))
 	size = [150,150]
@@ -17,7 +17,9 @@ def evalFromDir(dir = '../ISIC_0029314', model = "vgg_8cat.h5"):
 	print(img.shape)
 	new_model = keras.models.load_model(model)
 	predictions = new_model.predict(img)
-	return predictions
+	i = np.argmax(predictions)
+	json = {"disease" : diseaseList[i]}
+	return json
 
 	#data is json object
 def saveImg(data):
@@ -56,9 +58,9 @@ def screening():
 	json = request.json
 	fileName = saveImg(json)
 	data = evalFromDir(dir = fileName)
-	data = data.tolist()
 
-	return {"results" : data}
+
+	return data
 
 
 
