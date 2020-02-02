@@ -7,7 +7,7 @@ import base64
 
 app = Flask(__name__)
 
-def evalFromDir(dir = '../ISIC_0029314', model = "../savedModels/vgg_8cat.h5"):
+def evalFromDir(dir = '../ISIC_0029314', model = "vgg_8cat.h5"):
 	img = Image.open("{}.jpg".format(dir))
 	size = [150,150]
 	img = img.resize(size)
