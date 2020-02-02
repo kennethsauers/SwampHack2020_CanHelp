@@ -4,26 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_normal"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/GoToCamera"
-        android:layout_width="300dp"
-        android:layout_height="200px"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="276dp"
-        android:text="To Camera"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="180dp"
+        android:background="@drawable/front_page_button"
+        android:text="Take a Picture"
+        android:textSize="25sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="58dp" />
 
     <Button
         android:id="@+id/GoToLibrary"
-        android:layout_width="300dp"
-        android:layout_height="200px"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="428dp"
-        android:text="To Library"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="149dp"
+        android:background="@drawable/front_page_button"
+        android:text="Send for Testing"
+        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@+id/GoToCamera"
+        tools:layout_editor_absoluteX="58dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

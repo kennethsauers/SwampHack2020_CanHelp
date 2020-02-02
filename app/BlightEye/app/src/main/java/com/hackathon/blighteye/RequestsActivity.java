@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +41,7 @@ public class RequestsActivity extends AppCompatActivity {
     private TextView textView;
     private ImageView imageView;
 
-    String url = "https://cool-phalanx-266913.appspot.com/calc";
+    String url = "https://cool-phalanx-266913.appspot.com/screening";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,8 @@ public class RequestsActivity extends AppCompatActivity {
 
         try {
             byte[] bytes = fullyReadFileToBytes();
-            jsonObject.put("value", new String(bytes));
+            String base64String = Base64.encodeToString(bytes, 0);
+            jsonObject.put("data", base64String);
 
         } catch (Exception e) {
             e.printStackTrace();
