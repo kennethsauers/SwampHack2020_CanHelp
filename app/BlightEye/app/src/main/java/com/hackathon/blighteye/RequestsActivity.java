@@ -107,10 +107,10 @@ public class RequestsActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.i("^^^^^^^^^^^GOT A VALID RESPONSE^^^^^^^^^^", " PRINTING IT");
                         Log.i("RESPONSE AS A STRING: ", response.toString());
-                        Toast.makeText(getApplicationContext(), "Got an OK", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Opening Results Page", Toast.LENGTH_SHORT).show();
 
                         // When the Toast was shown, start a new activity
-                        openResultsActivity(toPass);
+                        openResultsActivity(toPass, response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -154,8 +154,21 @@ public class RequestsActivity extends AppCompatActivity {
         return bytes;
     }
 
-    public void openResultsActivity(View v) {
+    public void openResultsActivity(View view, JSONObject response) {
         Intent intent = new Intent(this, ResultsPage.class);
+        String dis = "";
+        // Parse JSON
+        try {
+            dis = response.getString("disease");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Parse some data
+        SomeData data = new SomeData(0, dis, "");
+
+        intent.putExtra("SomeData", data);
         startActivity(intent);
     }
 }
