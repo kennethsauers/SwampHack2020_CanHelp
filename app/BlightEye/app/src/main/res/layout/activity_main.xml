@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_normal"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <Button
@@ -14,19 +16,21 @@
         android:layout_marginTop="180dp"
         android:background="@drawable/front_page_button"
         android:text="Take a Picture"
-        android:textSize="25sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="58dp" />
+        android:textSize="35sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/kayak_sans_bold" />
 
     <Button
         android:id="@+id/GoToLibrary"
         android:layout_width="350dp"
         android:layout_height="100dp"
-        android:layout_marginTop="149dp"
+        android:layout_marginTop="210dp"
         android:background="@drawable/front_page_button"
         android:text="Send for Testing"
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@+id/GoToCamera"
-        tools:layout_editor_absoluteX="58dp" />
+        android:textSize="35sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/kayak_sans_bold"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

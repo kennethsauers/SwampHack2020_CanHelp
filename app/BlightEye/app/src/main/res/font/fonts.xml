@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/kayak_sans_regular"/>
+
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="400"
+        android:font="@font/kayak_sans_regular_italic"/>
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="600"
+        android:font="@font/kayak_sans_bold"/>
+
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="600"
+        android:font="@font/kayak_sans_bold_italic"/>
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="200"
+        android:font="@font/kayak_sans_light"/>
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="200"
+        android:font="@font/kayak_sans_light_italic"/>
+
+
+
+</font-family>

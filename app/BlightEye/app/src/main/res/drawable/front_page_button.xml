@@ -4,9 +4,9 @@
     <item android:state_pressed="false">
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
             <gradient
-                android:startColor="@color/colorPrimaryButtonLight"
-                android:centerColor="@color/colorPrimaryButtonLight"
-                android:endColor="@color/colorPrimaryButtonLight" />
+                android:startColor="@color/colorPrimaryButtonDark"
+                android:centerColor="@color/colorPrimaryButtonDark"
+                android:endColor="@color/colorPrimaryButtonDark" />
             <corners android:radius="10dp" />
         </shape>
     </item>

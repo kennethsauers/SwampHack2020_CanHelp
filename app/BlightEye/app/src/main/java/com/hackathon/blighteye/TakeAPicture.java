@@ -443,7 +443,7 @@ public class TakeAPicture extends AppCompatActivity {
             SurfaceTexture texture = textureView.getSurfaceTexture();
             assert texture != null;
             /*texture.setDefaultBufferSize(imageDimensions.getWidth(), imageDimensions.getHeight());*/
-            texture.setDefaultBufferSize(150, 150);
+            texture.setDefaultBufferSize(2160, 1080);
             Surface surface = new Surface(texture);
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             captureRequestBuilder.addTarget(surface);

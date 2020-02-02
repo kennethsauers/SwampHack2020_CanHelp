@@ -44,20 +44,18 @@
 
             <Button
                 android:id="@+id/TakeAPicture"
-                style="?metaButtonBarButtonStyle"
+                android:background="@drawable/front_page_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Take Picture" />
+                android:text="Take Picture"
+                android:fontFamily="@font/kayak_sans_regular"
+                android:textSize="30sp"
+                android:textColor="#FFFFFF"/>
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/GoToHomeScreen"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="325dp"
-            android:layout_marginTop="25dp" />
+
     </FrameLayout>
 
 </FrameLayout>
