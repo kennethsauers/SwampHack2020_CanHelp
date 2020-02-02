@@ -3,6 +3,7 @@ package com.hackathon.blighteye;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,5 +26,12 @@ public class ResultsPage extends AppCompatActivity {
         disease = passedData.getConditionName();
 
         resultsTexView.setText(disease);
+
+        understoodBbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }

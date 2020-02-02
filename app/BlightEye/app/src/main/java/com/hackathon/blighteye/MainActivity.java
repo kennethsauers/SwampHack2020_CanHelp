@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToTakeAPicture(View view){
         Intent intent = new Intent(this, TakeAPicture.class);
-        startActivity(intent);
+        int reqCode = 0;
+        startActivityForResult(intent, reqCode);
     }
 }

@@ -48,7 +48,7 @@ public class RequestsActivity extends AppCompatActivity {
     private ImageView imageView;
     View toPass;
 
-    String url = "https://cool-phalanx-266913.appspot.com/screening";
+    String url = "https://cool-phalanx-266913.appspot.com/skin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +169,8 @@ public class RequestsActivity extends AppCompatActivity {
         SomeData data = new SomeData(0, dis, "");
 
         intent.putExtra("SomeData", data);
+//        int reqCode = 0;
         startActivity(intent);
+        finish();
     }
 }
