@@ -8,7 +8,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.*;
@@ -147,6 +150,13 @@ public class TakeAPicture extends AppCompatActivity {
             }
         });
 
+        /*goToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setGoToHome(v);
+            }
+        });*/
+
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
@@ -206,6 +216,7 @@ public class TakeAPicture extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
+    private Button goToHome;
     private Button takeAPicture;
     private String cameraId;
     private Size imageDimensions;
@@ -334,12 +345,12 @@ public class TakeAPicture extends AppCompatActivity {
             if (characteristics != null) {
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
             }
-            int width = 1280;
-            int height = 720;
-            if (jpegSizes != null && 0 < jpegSizes.length) {
+            int width = 150;
+            int height = 150;
+            /*if (jpegSizes != null && 0 < jpegSizes.length) {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
-            }
+            }*/
             ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurfaces = new ArrayList<Surface>(2);
             outputSurfaces.add(reader.getSurface());
@@ -361,7 +372,9 @@ public class TakeAPicture extends AppCompatActivity {
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
-                        save(bytes);
+                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
+                        //save(bytes);
+                        save(bmp);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -373,11 +386,24 @@ public class TakeAPicture extends AppCompatActivity {
                         }
                     }
                 }
-                private void save(byte[] bytes) throws IOException {
+                /*private void save(byte[] bytes) throws IOException {
                     OutputStream output = null;
                     try {
                         output = new FileOutputStream(file);
+
                         output.write(bytes);
+                    } finally {
+                        if (null != output) {
+                            output.close();
+                        }
+                    }
+                }*/
+                private void save(Bitmap bmp) throws IOException {
+                    OutputStream output = null;
+                    try {
+                        output = new FileOutputStream(file);
+                        bmp.compress(Bitmap.CompressFormat.JPEG,50,output);
+                        //output.write(bytes);
                     } finally {
                         if (null != output) {
                             output.close();
@@ -416,7 +442,8 @@ public class TakeAPicture extends AppCompatActivity {
         try {
             SurfaceTexture texture = textureView.getSurfaceTexture();
             assert texture != null;
-            texture.setDefaultBufferSize(imageDimensions.getWidth(), imageDimensions.getHeight());
+            /*texture.setDefaultBufferSize(imageDimensions.getWidth(), imageDimensions.getHeight());*/
+            texture.setDefaultBufferSize(150, 150);
             Surface surface = new Surface(texture);
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             captureRequestBuilder.addTarget(surface);
@@ -482,5 +509,11 @@ public class TakeAPicture extends AppCompatActivity {
             imageReader.close();
             imageReader = null;
         }
+    }
+
+
+    public void setGoToHome(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package com.hackathon.blighteye;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +34,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.xml.datatype.DatatypeFactory;
+
 public class RequestsActivity extends AppCompatActivity {
 
     private Button sendRequestButton;
@@ -39,8 +43,9 @@ public class RequestsActivity extends AppCompatActivity {
     private RequestQueue rQ;
     private TextView textView;
     private ImageView imageView;
+    View toPass;
 
-    String url = "https://cool-phalanx-266913.appspot.com/calc";
+    String url = "https://cool-phalanx-266913.appspot.com/screening";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +62,8 @@ public class RequestsActivity extends AppCompatActivity {
         sendRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    sendCalcJSONRequest();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                toPass = view;
+                sendCalcJSONRequest();
             }
         });
 
@@ -73,15 +75,15 @@ public class RequestsActivity extends AppCompatActivity {
         }
     }
 
-    public boolean sendCalcJSONRequest() throws JSONException {
+    public boolean sendCalcJSONRequest() {
         String e1Str = editText1.getText().toString();
 
-        JSONObject jsonObject;
-        jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
 
         try {
             byte[] bytes = fullyReadFileToBytes();
-            jsonObject.put("value", new String(bytes));
+            String base64String = Base64.encodeToString(bytes, 0);
+            jsonObject.put("data", base64String);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,6 +102,9 @@ public class RequestsActivity extends AppCompatActivity {
                         Log.i("^^^^^^^^^^^GOT A VALID RESPONSE^^^^^^^^^^", " PRINTING IT");
                         Log.i("RESPONSE AS A STRING: ", response.toString());
                         Toast.makeText(getApplicationContext(), "Got an OK", Toast.LENGTH_SHORT).show();
+
+                        // When the Toast was shown, start a new activity
+                        openResultsActivity(toPass);
                     }
                 },
                 new Response.ErrorListener() {
@@ -137,5 +142,10 @@ public class RequestsActivity extends AppCompatActivity {
         }
 
         return bytes;
+    }
+
+    public void openResultsActivity(View v) {
+        Intent intent = new Intent(this, ResultsPage.class);
+        startActivity(intent);
     }
 }
