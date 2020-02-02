@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RequestsActivity"></activity>
+        <activity android:name=".ResultsPage"></activity>
+        <activity android:name=".RequestsActivity" />
         <activity
             android:name=".TakeAPicture"
             android:configChanges="orientation|keyboardHidden|screenSize"
