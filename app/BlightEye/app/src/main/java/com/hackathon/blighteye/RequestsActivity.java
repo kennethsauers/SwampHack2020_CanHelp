@@ -1,6 +1,7 @@
 package com.hackathon.blighteye;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
@@ -33,6 +34,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.xml.datatype.DatatypeFactory;
+
 public class RequestsActivity extends AppCompatActivity {
 
     private Button sendRequestButton;
@@ -40,6 +43,7 @@ public class RequestsActivity extends AppCompatActivity {
     private RequestQueue rQ;
     private TextView textView;
     private ImageView imageView;
+    View toPass;
 
     String url = "https://cool-phalanx-266913.appspot.com/screening";
 
@@ -58,11 +62,8 @@ public class RequestsActivity extends AppCompatActivity {
         sendRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    sendCalcJSONRequest();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                toPass = view;
+                sendCalcJSONRequest();
             }
         });
 
@@ -74,11 +75,10 @@ public class RequestsActivity extends AppCompatActivity {
         }
     }
 
-    public boolean sendCalcJSONRequest() throws JSONException {
+    public boolean sendCalcJSONRequest() {
         String e1Str = editText1.getText().toString();
 
-        JSONObject jsonObject;
-        jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
 
         try {
             byte[] bytes = fullyReadFileToBytes();
@@ -102,6 +102,9 @@ public class RequestsActivity extends AppCompatActivity {
                         Log.i("^^^^^^^^^^^GOT A VALID RESPONSE^^^^^^^^^^", " PRINTING IT");
                         Log.i("RESPONSE AS A STRING: ", response.toString());
                         Toast.makeText(getApplicationContext(), "Got an OK", Toast.LENGTH_SHORT).show();
+
+                        // When the Toast was shown, start a new activity
+                        openResultsActivity(toPass);
                     }
                 },
                 new Response.ErrorListener() {
@@ -139,5 +142,10 @@ public class RequestsActivity extends AppCompatActivity {
         }
 
         return bytes;
+    }
+
+    public void openResultsActivity(View v) {
+        Intent intent = new Intent(this, ResultsPage.class);
+        startActivity(intent);
     }
 }
