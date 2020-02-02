@@ -22,12 +22,13 @@ def evalFromDir(dir = '../ISIC_0029314', model = "vgg_8cat.h5"):
 	#data is json object
 def saveImg(data):
 	fileName = 'filler'
-	dataBytes = bytes(data['data'])
-	f = io.BytesIO(base64.b64decode(dataBytes))
+	#print(type(data['data']))
+	dataBytes = (data['imgdata'])
+	print(type(dataBytes))
+	f = io.BytesIO(base64.b64decode((dataBytes)))
 	pilimage = Image.open(f)
 	pilimage.save('{}.jpg'.format(fileName), "JPEG")
 	return fileName
-
 
 @app.route('/', methods = ['POST'])
 def hello_world():
@@ -57,8 +58,7 @@ def screening():
 	data = evalFromDir(dir = fileName)
 	data = data.tolist()
 
-	return {"results" : data,
-			"original" : json}
+	return {"results" : data}
 
 
 
