@@ -1,0 +1,3 @@
+[submodule "Flasktesting"]
+	path = Flasktesting
+	url = https://github.com/kennethsauers/Flasktesting

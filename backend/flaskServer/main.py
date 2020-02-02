@@ -14,7 +14,6 @@ def evalFromDir(dir = '../ISIC_0029314', model = "vgg_8cat.h5"):
 	img = np.array(img)
 	img = img.reshape([-1,150,150,3])
 	img = np.array(img)
-	print(img.shape)
 	new_model = keras.models.load_model(model)
 	predictions = new_model.predict(img)
 	i = np.argmax(predictions)
@@ -26,11 +25,28 @@ def saveImg(data):
 	fileName = 'filler'
 	#print(type(data['data']))
 	dataBytes = (data['imgdata'])
-	print(type(dataBytes))
 	f = io.BytesIO(base64.b64decode((dataBytes)))
 	pilimage = Image.open(f)
 	pilimage.save('{}.jpg'.format(fileName), "JPEG")
 	return fileName
+
+@app.route('/skin', methods=["POST"])
+def newPredict():
+	model = "vgg_8cat.h5"
+	data = request.json
+	dataBytes = (data['imgdata'])
+	f = io.BytesIO(base64.b64decode((dataBytes)))
+	img = Image.open(f)
+	size = [150,150]
+	img = img.resize(size)
+	img = np.array(img)
+	img = img.reshape([-1,150,150,3])
+	new_model = keras.models.load_model(model)
+	predictions = new_model.predict(img)
+	i = np.argmax(predictions)
+	json = {"disease" : diseaseList[i]}
+	return json
+
 
 @app.route('/', methods = ['POST'])
 def hello_world():
@@ -58,8 +74,6 @@ def screening():
 	json = request.json
 	fileName = saveImg(json)
 	data = evalFromDir(dir = fileName)
-
-
 	return data
 
 
