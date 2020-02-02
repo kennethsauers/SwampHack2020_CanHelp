@@ -10,6 +10,8 @@ public class ResultsPage extends AppCompatActivity {
 
     private Button understoodBbutton;
     private TextView resultsTexView;
+    SomeData passedData;
+    String disease;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,9 @@ public class ResultsPage extends AppCompatActivity {
         understoodBbutton = findViewById(R.id.understood_button);
         resultsTexView = findViewById(R.id.resultsView);
 
-        // Parse the JSON on create and assign values to entries
+        passedData = (SomeData) getIntent().getSerializableExtra("SomeData");
+        disease = passedData.getConditionName();
+
+        resultsTexView.setText(disease);
     }
 }
