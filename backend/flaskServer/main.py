@@ -7,7 +7,7 @@ import base64
 
 app = Flask(__name__)
 diseaseList = ["Bowen's disease", "basal cell carcinoma", "benign keratosis-like", "dermatofibroma", "melanoma", "melanocytic nevi ", "vascular lesions vasc."]
-def evalFromDir(dir = '../ISIC_0029314', model = "vgg_8cat.h5"):
+def evalFromDir(dir = '../ISIC_0029314', model = "newModel.h5"):
 	img = Image.open("{}.jpg".format(dir))
 	size = [150,150]
 	img = img.resize(size)
@@ -32,7 +32,7 @@ def saveImg(data):
 
 @app.route('/skin', methods=["POST"])
 def newPredict():
-	model = "vgg_8cat.h5"
+	model = "newModel.h5"
 	data = request.json
 	dataBytes = (data['imgdata'])
 	f = io.BytesIO(base64.b64decode((dataBytes)))
