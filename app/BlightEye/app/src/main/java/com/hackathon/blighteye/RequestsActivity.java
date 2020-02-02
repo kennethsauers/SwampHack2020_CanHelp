@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,6 +34,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.datatype.DatatypeFactory;
 
@@ -83,7 +86,10 @@ public class RequestsActivity extends AppCompatActivity {
         try {
             byte[] bytes = fullyReadFileToBytes();
             String base64String = Base64.encodeToString(bytes, 0);
-            jsonObject.put("data", base64String);
+//            ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(base64String);
+            jsonObject.put("imgdata", base64String);
+
+            Log.i(base64String, "*********** END HERE *************");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,6 +119,10 @@ public class RequestsActivity extends AppCompatActivity {
                         Log.e("^^^^^^^^^^ Errored on tryna get response", error.toString());
                     }
                 });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         rQ.add(jsonObjectRequest);
         return true;
