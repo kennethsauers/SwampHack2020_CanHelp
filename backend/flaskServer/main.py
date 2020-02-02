@@ -1,18 +1,33 @@
 from flask import Flask, jsonify, request
-import cv2
+from PIL import Image
 from tensorflow import keras
-
-modelPath = '/home/kennethsauers/SwampHack2020_CanHelp/backend/savedModels/path_to_my_model.h5'
+import numpy as np
+import io
+import base64
 
 app = Flask(__name__)
 
-def evalFromDir(dir = '../ISIC_0029314.jpg', model = "../savedModels/path_to_my_model.h5"):
-	img = cv2.imread(dir)
-	img = cv2.resize(img,(150,150))
-	img = img.reshape(-1,150,150,3)
+def evalFromDir(dir = '../ISIC_0029314', model = "vgg_8cat.h5"):
+	img = Image.open("{}.jpg".format(dir))
+	size = [150,150]
+	img = img.resize(size)
+	img = np.array(img)
+	img = img.reshape([-1,150,150,3])
+	img = np.array(img)
+	print(img.shape)
 	new_model = keras.models.load_model(model)
 	predictions = new_model.predict(img)
 	return predictions
+
+	#data is json object
+def saveImg(data):
+	fileName = 'filler'
+	dataBytes = bytes(data['data'])
+	f = io.BytesIO(base64.b64decode(dataBytes))
+	pilimage = Image.open(f)
+	pilimage.save('{}.jpg'.format(fileName), "JPEG")
+	return fileName
+
 
 @app.route('/', methods = ['POST'])
 def hello_world():
@@ -37,13 +52,15 @@ def greeting():
 
 @app.route('/screening', methods = ['POST'])
 def screening():
-    data = evalFromDir()
-    data = data.tolist()
+	json = request.json
+	fileName = saveImg(json)
+	data = evalFromDir(dir = fileName)
+	data = data.tolist()
 
-    return {"benign" : data
-    }
+	return {"results" : data,
+			"original" : json}
 
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port = 8080, debug = True)
+    app.run(host='0.0.0.0', port = 8080, debug = True)
