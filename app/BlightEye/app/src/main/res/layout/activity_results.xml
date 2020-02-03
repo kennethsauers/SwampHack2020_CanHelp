@@ -31,18 +31,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
-    <TextView
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="9dp"
-        android:text="I STILL NEED TO CHECK WITH A DOCTOR"
-        android:textSize="20dp"
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintBottom_toTopOf="@+id/understood_button"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/understood_button"
         android:layout_width="380dp"
@@ -56,4 +44,30 @@
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resultsView" />
+
+    <Button
+        android:id="@+id/linkB"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="308dp"
+        android:autoLink=""
+        android:background="@drawable/front_page_button"
+        android:text="Link to online article"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resultsView" />
+
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/kayak_sans_bold"
+        android:text="I STILL NEED TO CHECK WITH A DOCTOR"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/understood_button"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
